@@ -5,19 +5,33 @@ module.exports = function main(input) {
 
 
 function printReceipt(input){
-    var names = getNames(input);
+    const names = getNames(input);
     var totalSum = 0;
-    let introString = '***<store earning no money>Receipt ***\n';
-    var finalResult = introString;
+    var bodyReceipt = "";
+    var footerReceipt = "";
     names.forEach(name => {
         var subTotal = getSubTotal(input, name);
-        finalResult = finalResult.concat('Name: ', name, ', Quantity: ', getQuantity(input, name), ', Unit price: ', getPrice(input, name), ' (yuan), SubTotal: ', subTotal.toFixed(2), ' (yuan)\n');
+        bodyReceipt = bodyReceipt.concat(
+            'Name: ', name, 
+            ', Quantity: ', getQuantity(input, name), 
+            ', Unit price: ', getPrice(input, name), ' (yuan)', 
+            ', Subtotal: ', subTotal.toFixed(2), ' (yuan)\n');
         totalSum = totalSum + subTotal;
-
     })
 
-    finalResult = finalResult.concat('----------------------\n', 'Total: ', totalSum.toFixed(2), ' (yuan)\n', '**********************\n');
-    return finalResult;
+    
+
+    footerReceipt = footerReceipt.concat(
+        '----------------------\n', 
+        'Total: ', totalSum.toFixed(2), ' (yuan)\n', 
+        '**********************\n');
+
+    return constructReciept(bodyReceipt, footerReceipt);
+}
+
+function constructReciept(bodyText, footerText){
+    let introString = '***<store earning no money>Receipt ***\n';
+    return introString.concat(bodyText, footerText);
 }
 
 
